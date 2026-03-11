@@ -175,16 +175,6 @@ Per usare l'app in locale è sufficiente:
 
 Non è necessario installare dipendenze.
 
-## Pubblicazione online
-
-Poiché il progetto è composto solo da file statici, può essere pubblicato gratuitamente con servizi come:
-
-* GitHub Pages
-* Netlify
-* Vercel
-
-La soluzione più semplice, in questo caso, è GitHub Pages.
-
 ## Formato del file JSON
 
 Ogni database deve avere questa struttura:
