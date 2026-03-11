@@ -1,0 +1,568 @@
+/* =========================================================
+   RESET GENERALE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   VARIABILI GLOBALI
+   ========================================================= */
+
+:root {
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --border: #d9e2ec;
+  --text: #1f2937;
+  --muted: #6b7280;
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+
+  --success: #059669;
+  --success-hover: #047857;
+
+  --danger: #dc2626;
+  --danger-hover: #b91c1c;
+
+  --warning-bg: #fff7ed;
+  --success-bg: #ecfdf5;
+  --error-bg: #fef2f2;
+
+  --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  --radius: 16px;
+}
+
+/* =========================================================
+   LAYOUT GENERALE
+   ========================================================= */
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Contenitore principale dell'applicazione */
+.app-container {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+/* Intestazione iniziale con titolo e sottotitolo */
+.app-header {
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+}
+
+.small-subtitle {
+  margin-top: 6px;
+}
+
+/* Card usata come contenitore delle varie schermate */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+/* =========================================================
+   GESTIONE SCHERMATE
+   ========================================================= */
+
+/* Le schermate sono nascoste di default */
+.screen {
+  display: none;
+}
+
+/* Solo la schermata attiva viene mostrata */
+.screen.active {
+  display: block;
+}
+
+/* =========================================================
+   BLOCCHI E TESTI DI SUPPORTO
+   ========================================================= */
+
+/* Spaziatura verticale tra i vari blocchi della home */
+.block {
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Testi secondari di supporto, ad esempio numero domande nel database */
+.small-text {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+/* Messaggi informativi non di errore */
+.message {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* Messaggio mostrato quando una lista è vuota */
+.empty-state {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Classe di utilità per nascondere elementi via JS */
+.hidden {
+  display: none;
+}
+
+/* =========================================================
+   INPUT E SELECT
+   ========================================================= */
+
+/* Stile condiviso per input file, input numero e menu a tendina */
+input[type="file"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  background: #fff;
+}
+
+/* =========================================================
+   BOTTONI
+   ========================================================= */
+
+/* Contenitore flessibile dei pulsanti */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+/* Stile base di tutti i pulsanti */
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* Varianti cromatiche dei pulsanti */
+.btn.primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn.primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn.success {
+  background: var(--success);
+  color: white;
+}
+
+.btn.success:hover {
+  background: var(--success-hover);
+}
+
+.btn.danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn.danger:hover {
+  background: var(--danger-hover);
+}
+
+.btn.secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn.secondary:hover {
+  background: #d1d5db;
+}
+
+/* Spazio sopra il pulsante di importazione */
+#upload-btn {
+  margin-top: 12px;
+}
+
+/* =========================================================
+   BOX ERRORI
+   ========================================================= */
+
+/* Box dedicato ai messaggi di errore mostrati all'utente */
+.error-box {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #f5c2c7;
+  background: #fef2f2;
+  color: #991b1b;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   ELENCO DATABASE SALVATI
+   ========================================================= */
+
+/* Lista verticale dei database caricati e salvati */
+.saved-quizzes-list {
+  display: grid;
+  gap: 12px;
+}
+
+/* Card base del singolo database */
+.saved-quiz-item {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  cursor: grab;
+  transition: 0.2s ease;
+  background: #ffffff;
+}
+
+/* Stati visivi usati durante il trascinamento dei database */
+.saved-quiz-item:active {
+  cursor: grabbing;
+}
+
+.saved-quiz-item.dragging {
+  opacity: 0.55;
+}
+
+.saved-quiz-item.drag-over {
+  border: 2px dashed var(--primary);
+  background: #eff6ff;
+}
+
+/* Card evidenziata quando il database è selezionato */
+.saved-quiz-item.selected-database {
+  border: 2px solid #059669;
+  background: #ecfdf5;
+}
+
+/* Titolo e descrizione del database salvato */
+.saved-quiz-info h4 {
+  margin: 0 0 6px;
+}
+
+.saved-quiz-info p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   TEST: HEADER E CONTENITORE
+   ========================================================= */
+
+/* Barra superiore della schermata test e risultati */
+.quiz-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   DOMANDE DEL TEST
+   ========================================================= */
+
+/* Card della singola domanda durante lo svolgimento del test */
+.question-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  background: #fcfdff;
+}
+
+/* Parte introduttiva della domanda: numero, testo e tipo */
+.question-header {
+  margin-bottom: 14px;
+}
+
+.question-number {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.question-text {
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Indica se la domanda è a risposta singola o multipla */
+.question-type {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Lista delle opzioni di risposta */
+.options-list {
+  display: grid;
+  gap: 10px;
+}
+
+/* Singola opzione durante il test */
+.option-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: white;
+}
+
+/* Etichetta cliccabile dell'opzione */
+.option-label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+/* Allineamento del radio/checkbox rispetto al testo */
+.option-label input {
+  margin-top: 3px;
+}
+
+/* Pulsanti fissi nella schermata test */
+.sticky-actions {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding-top: 12px;
+}
+
+/* =========================================================
+   RIEPILOGO RISULTATI
+   ========================================================= */
+
+/* Griglia dei box riepilogativi finali */
+.results-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* Box singolo del riepilogo: corrette, errate, non risposte, voto */
+.summary-box {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.summary-box h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.summary-box p {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* =========================================================
+   CARD DELLE DOMANDE NELLA SCHERMATA RISULTATI
+   ========================================================= */
+
+/* Card della singola domanda nella correzione finale */
+.result-question {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+/* Sfondo generale della card in base all'esito della domanda */
+.result-question.correct {
+  background: var(--success-bg);
+}
+
+.result-question.wrong {
+  background: var(--error-bg);
+}
+
+.result-question.unanswered {
+  background: var(--warning-bg);
+}
+
+/* =========================================================
+   ETICHETTE STATO: Corretta / Errata / Non risposta
+   ========================================================= */
+
+/* Badge sintetico che riassume l'esito della domanda */
+.result-status {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.result-status.correct {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.result-status.wrong {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.result-status.unanswered {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+/* =========================================================
+   SPIEGAZIONE TESTUALE DEL RISULTATO
+   ========================================================= */
+
+/* Messaggio descrittivo che spiega perché la risposta è corretta o errata */
+.result-explanation {
+  margin: 10px 0 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.result-explanation.correct {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.result-explanation.wrong {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.result-explanation.unanswered {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* =========================================================
+   ELENCO OPZIONI NELLA SCHERMATA RISULTATI
+   ========================================================= */
+
+/* Contenitore di tutte le opzioni */
+.result-options {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+/* Stile base di ogni opzione */
+.result-option {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  transition: 0.2s ease;
+}
+
+/* Colori usati nelle opzioni corrette/errate della correzione finale:
+   verde  = risposta selezionata correttamente
+   rosso  = risposta selezionata ma errata
+   giallo = risposta corretta non selezionata
+   neutro = opzione non rilevante */
+.result-option.selected-correct {
+  border: 2px solid #059669;
+  background: #d1fae5;
+}
+
+/* Rosso: risposta selezionata ma sbagliata */
+.result-option.selected-wrong {
+  border: 2px solid #dc2626;
+  background: #fee2e2;
+}
+
+/* Giallo: risposta corretta che non è stata selezionata */
+.result-option.missed-correct {
+  border: 2px solid #d97706;
+  background: #fef3c7;
+}
+
+/* Neutro: risposta né corretta né selezionata */
+.result-option.neutral-option {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Testo descrittivo sotto l’opzione */
+.result-legend {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* Adattamenti per schermi piccoli */
+@media (max-width: 640px) {
+  .app-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <!-- Meta e impostazioni base del documento -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Titolo mostrato nella scheda del browser -->
+  <title>Test a risposta multipla</title>
+
+  <!-- Foglio di stile principale -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Contenitore principale dell'app -->
+  <div class="app-container">
+
+    <!-- Intestazione iniziale -->
+    <header class="app-header">
+      <h1>TEST A RISPOSTA MULTIPLA</h1>
+      <p class="subtitle">Carica un database di domande, scegli quante estrarne e svolgi il test.</p>
+    </header>
+
+    <main>
+      <!-- =========================================================
+           SCHERMATA HOME
+           Contiene importazione database, elenco database salvati,
+           selezione del database e avvio del test
+           ========================================================= -->
+      <section id="home-screen" class="card screen active">
+        <h2>Gestione database</h2>
+
+        <!-- Blocco importazione file JSON -->
+        <div class="block">
+          <label for="quiz-file" class="label">Carica un database JSON</label>
+          <input type="file" id="quiz-file" accept=".json,application/json" />
+          <button id="upload-btn" class="btn primary">Importa database</button>
+          <p id="upload-message" class="message"></p>
+          <div id="error-message" class="error-box hidden"></div>
+        </div>
+
+        <!-- Blocco elenco dei database salvati -->
+        <div class="block">
+          <h3>Database salvati nel browser</h3>
+          <div id="saved-quizzes-list" class="saved-quizzes-list"></div>
+        </div>
+
+        <!-- Blocco selezione database dal menu a tendina -->
+        <div class="block">
+          <label for="selected-quiz" class="label">Seleziona un database</label>
+          <select id="selected-quiz"></select>
+        </div>
+
+        <!-- Blocco scelta del numero di domande da estrarre -->
+        <div class="block">
+          <label for="question-count" class="label">Numero di domande da estrarre</label>
+          <input type="number" id="question-count" min="1" placeholder="Es. 20" />
+          <p id="pool-info" class="small-text"></p>
+        </div>
+
+        <!-- Azioni principali della home -->
+        <div class="actions">
+          <button id="start-quiz-btn" class="btn success">Inizia test</button>
+          <button id="clear-storage-btn" class="btn danger secondary">Cancella tutti i database salvati</button>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           SCHERMATA TEST
+           Mostra il titolo del test, le domande estratte e il
+           pulsante per consegnare il test
+           ========================================================= -->
+      <section id="quiz-screen" class="card screen">
+        <div class="quiz-topbar">
+          <div>
+            <h2 id="quiz-title">Test</h2>
+            <p id="quiz-description" class="subtitle small-subtitle"></p>
+          </div>
+          <button id="back-home-btn" class="btn secondary">Torna alla home</button>
+        </div>
+
+        <!-- Form del test con le domande generate dinamicamente -->
+        <form id="quiz-form">
+          <div id="questions-container"></div>
+
+          <!-- Azione finale di consegna -->
+          <div class="actions sticky-actions">
+            <button type="submit" class="btn success">Consegna test</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- =========================================================
+           SCHERMATA RISULTATI
+           Mostra il riepilogo finale e la correzione dettagliata
+           ========================================================= -->
+      <section id="results-screen" class="card screen">
+        <div class="quiz-topbar">
+          <div>
+            <h2>Risultati del test</h2>
+            <p class="subtitle small-subtitle">Riepilogo finale e correzione dettagliata.</p>
+          </div>
+          <button id="results-home-btn" class="btn secondary">Torna alla home</button>
+        </div>
+
+        <!-- Riepilogo numerico del risultato -->
+        <div id="results-summary" class="results-summary"></div>
+
+        <!-- Correzione dettagliata domanda per domanda -->
+        <div id="results-details" class="results-details"></div>
+
+        <!-- Azione per ripetere il test con nuova estrazione -->
+        <div class="actions">
+          <button id="retry-btn" class="btn primary">Ripeti con nuova estrazione</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Script principale dell'app -->
+  <script src="app.js"></script>
+</body>
+</html>

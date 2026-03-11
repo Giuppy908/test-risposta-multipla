@@ -1,0 +1,29 @@
+{
+  "titolo": "Nome del database",
+  "descrizione": "Breve descrizione del contenuto",
+  "domande": [
+    {
+      "id": 1,
+      "tipo": "singola",
+      "testo": "Testo della domanda",
+      "opzioni": [
+        { "id": "a", "testo": "Prima opzione" },
+        { "id": "b", "testo": "Seconda opzione" },
+        { "id": "c", "testo": "Terza opzione" }
+      ],
+      "corrette": ["b"]
+    },
+    {
+      "id": 2,
+      "tipo": "multipla",
+      "testo": "Testo di una domanda con più risposte corrette",
+      "opzioni": [
+        { "id": "a", "testo": "Opzione A" },
+        { "id": "b", "testo": "Opzione B" },
+        { "id": "c", "testo": "Opzione C" },
+        { "id": "d", "testo": "Opzione D" }
+      ],
+      "corrette": ["a", "c"]
+    }
+  ]
+}
