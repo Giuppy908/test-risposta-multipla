@@ -250,10 +250,37 @@ select {
   justify-content: space-between;
   gap: 16px;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   cursor: grab;
   transition: 0.2s ease;
   background: #ffffff;
+}
+
+/* Il contenuto testuale occupa tutto lo spazio disponibile a sinistra */
+.saved-quiz-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* I pulsanti restano allineati a destra nella card del database */
+.saved-quiz-item .actions {
+  margin-top: 0;
+  margin-left: auto;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Informazione tecnica sul numero di domande contenute nel database */
+.saved-quiz-meta {
+  display: inline-block;
+  margin-top: 10px !important;
+  padding: 4px 10px;
+  font-size: 0.88rem !important;
+  color: #475569 !important;
+  background: #f1f5f9;
+  border-radius: 12px;
+  font-weight: 600;
 }
 
 /* Stati visivi usati durante il trascinamento dei database */
@@ -545,6 +572,35 @@ select {
 }
 
 /* =========================================================
+   PULSANTE FLOTTANTE "TORNA IN CIMA"
+   ========================================================= */
+
+/* Pulsante fisso per tornare rapidamente all'inizio della pagina */
+.back-to-top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 14px;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  transition: 0.2s ease;
+}
+
+/* Stato hover del pulsante */
+.back-to-top-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 
@@ -564,5 +620,23 @@ select {
 
   .btn {
     width: 100%;
+  }
+
+  .saved-quiz-item {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .saved-quiz-item .actions {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+
+  .back-to-top-btn {
+    right: 16px;
+    bottom: 55px;
+    width: 48px;
+    height: 48px;
   }
 }

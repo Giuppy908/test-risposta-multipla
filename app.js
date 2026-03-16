@@ -48,6 +48,9 @@ const resultsHomeBtn = document.getElementById("results-home-btn");
 const retryBtn = document.getElementById("retry-btn");
 const errorMessage = document.getElementById("error-message");
 
+/* Pulsante flottante per tornare in cima */
+const backToTopBtn = document.getElementById("back-to-top-btn");
+
 /* =========================================================
    GESTIONE SCHERMATE
    ========================================================= */
@@ -58,6 +61,23 @@ function showScreen(screen) {
   quizScreen.classList.remove("active");
   resultsScreen.classList.remove("active");
   screen.classList.add("active");
+}
+
+/* Porta la pagina in cima con uno scorrimento fluido */
+function scrollPageToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+/* Mostra o nasconde il pulsante "torna in cima" in base alla posizione di scroll */
+function updateBackToTopButtonVisibility() {
+  if (window.scrollY > 200) {
+    backToTopBtn.classList.remove("hidden");
+  } else {
+    backToTopBtn.classList.add("hidden");
+  }
 }
 
 /* =========================================================
@@ -108,6 +128,54 @@ function shuffleArray(array) {
     [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
   }
   return cloned;
+}
+
+/* Riconosce le opzioni che devono comparire come ultima scelta */
+function isLastOptionCandidate(optionText) {
+  if (typeof optionText !== "string") return false;
+
+  const normalized = optionText
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[.,;:!?()[\]"]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const patterns = [
+    /^nessuna delle precedenti\b/,
+    /^nessuna delle altre\b/,
+    /^nessuna delle risposte precedenti\b/,
+    /^nessuna delle opzioni precedenti\b/,
+    /^nessuna delle seguenti\b/,
+    /^tutte le precedenti\b/,
+    /^tutte le altre\b/,
+    /^tutte le risposte precedenti\b/,
+    /^tutte le opzioni precedenti\b/,
+    /^tutte le seguenti\b/,
+    /^altro\b/,
+    /^altra\b/,
+    /^altre\b/
+  ];
+
+  return patterns.some((pattern) => pattern.test(normalized));
+}
+
+/* Mescola le opzioni ma sposta in fondo quelle speciali, se presenti */
+function shuffleOptionsKeepingSpecialLast(options) {
+  const shuffled = shuffleArray(options);
+  const normalOptions = [];
+  const specialOptions = [];
+
+  shuffled.forEach((option) => {
+    if (isLastOptionCandidate(option.testo)) {
+      specialOptions.push(option);
+    } else {
+      normalOptions.push(option);
+    }
+  });
+
+  return [...normalOptions, ...specialOptions];
 }
 
 /* Applica la regola di arrotondamento personalizzata del voto */
@@ -229,11 +297,11 @@ function renderSavedQuizzes() {
       <div class="saved-quiz-info">
         <h4>${escapeHtml(quiz.titolo)}</h4>
         <p>${escapeHtml(quiz.descrizione || "Nessuna descrizione")}</p>
-        <p>${questionTotal} domande nel database</p>
+        <p class="saved-quiz-meta">${questionTotal} domande nel database</p>
       </div>
       <div class="actions">
         <button class="btn ${isSelected ? "success" : "secondary"} select-quiz-btn" data-id="${quiz.localId}">
-          ${isSelected ? "Database selezionato" : "Usa database"}
+          ${isSelected ? "Database in uso" : "Usa database"}
         </button>
         <button class="btn danger delete-quiz-btn" data-id="${quiz.localId}">Elimina</button>
       </div>
@@ -477,7 +545,7 @@ function prepareQuizQuestions(quiz, count) {
   const clonedQuestions = deepClone(quiz.domande).map((question, index) => ({
     ...question,
     internalId: question.id ?? `domanda_${index + 1}`,
-    opzioni: shuffleArray(question.opzioni)
+    opzioni: shuffleOptionsKeepingSpecialLast(question.opzioni)
   }));
 
   const shuffledQuestions = shuffleArray(clonedQuestions);
@@ -595,6 +663,7 @@ function startQuiz() {
 
   renderQuiz(quiz, state.currentQuestions);
   showScreen(quizScreen);
+  scrollPageToTop();
 }
 
 /* =========================================================
@@ -753,6 +822,7 @@ function renderResults(result) {
 /* Ritorna alla schermata iniziale */
 function resetToHome() {
   showScreen(homeScreen);
+  scrollPageToTop();
 }
 
 /* Ripete il test usando lo stesso database e lo stesso numero di domande */
@@ -773,6 +843,7 @@ function retryQuiz() {
   state.currentAnswers = {};
   renderQuiz(quiz, state.currentQuestions);
   showScreen(quizScreen);
+  scrollPageToTop();
 }
 
 /* Cancella tutti i database salvati nel browser */
@@ -817,12 +888,17 @@ backHomeBtn.addEventListener("click", resetToHome);
 resultsHomeBtn.addEventListener("click", resetToHome);
 retryBtn.addEventListener("click", retryQuiz);
 
+/* Gestione del pulsante flottante "torna in cima" */
+backToTopBtn.addEventListener("click", scrollPageToTop);
+window.addEventListener("scroll", updateBackToTopButtonVisibility);
+
 /* Consegna del test */
 quizForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const result = evaluateQuiz();
   renderResults(result);
   showScreen(resultsScreen);
+  scrollPageToTop();
 });
 
 /* =========================================================
@@ -833,6 +909,7 @@ quizForm.addEventListener("submit", (event) => {
 loadQuizzesFromStorage();
 renderAllHome();
 showScreen(homeScreen);
+updateBackToTopButtonVisibility();
 
 /* =========================================================
    GESTIONE DEI MESSAGGI DI ERRORE

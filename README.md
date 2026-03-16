@@ -127,7 +127,7 @@ Il voto in trentesimi viene calcolato con questa formula:
 
 ```text
 (corrette / totale_domande) * 30
-````
+```
 
 ### Regola di arrotondamento
 
